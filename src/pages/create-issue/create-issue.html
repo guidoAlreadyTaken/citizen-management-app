@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>CreateIssue</ion-title>
+    <ion-title>Create an Issue</ion-title>
       <!-- Logout button -->
   	<ion-buttons end>
     	<button ion-button icon-only (click)='logOut()'>
@@ -20,12 +20,40 @@
 
 
 <ion-content padding>
-Let's create an Issuse
+    <form #issueForm="ngForm" (ngSubmit)="createIssue(issueForm)">
 
-  <div>
-    <p>Take a picture :</p>
+    <ion-item *ngIf="issueTypes">
+      <ion-label>Type de problème</ion-label>
+      <ion-select [(ngModel)]="newIssue.issueTypeHref" name="issueType" required #issueTypeSelect="ngModel">
+        <ion-option *ngFor="let issueType of issueTypes" [value]="issueType.href">{{ issueType.name }}</ion-option>
+      </ion-select>
+    </ion-item>
 
-    <button ion-button (click)='takePicture()'>Button</button>
-    <img *ngIf='pictureData' src='data:image/jpeg;base64,{{ pictureData }}' />
-  </div>
+    <ion-item *ngIf='myAddress'>
+      <p><ion-icon name="pin"></ion-icon> {{ myAddress }}</p>
+    </ion-item>
+
+    <p *ngIf='issueDescriptionInput?.invalid && issueDescriptionInput?.dirty' class="formError">
+      La description est requise et sa longueur doit être supérieur à 5 caractères.
+    </p>
+    <ion-item>
+      <ion-textarea rows="5" type="text" name="description" required [(ngModel)]="newIssue.description" required minlength=5 placeholder="Description" #issueDescriptionInput="ngModel"></ion-textarea>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-input type="text" name="tags" [(ngModel)]="newIssue.tags" placeholder="Tags"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-thumbnail item-start>
+        <img *ngIf="newIssue.imageUrl" [src]=newIssue.imageUrl>
+      </ion-thumbnail>
+      <button ion-button (click)='takePicture()'>take a picture</button>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button color="light" type="submit" block [disabled]='issueForm.invalid'>Créer</button>
+    </ion-item>
+  </form>
 </ion-content>

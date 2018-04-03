@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+
+import { AuthProvider } from '../../providers/auth/auth';
 import { DetailsPage } from '../details/details';
 import { GeIssueListProvider } from '../../providers/ge-issue-list/ge-issue-list';
 import {Issue} from '../../models/issue';
@@ -22,7 +24,12 @@ export class IssueListPage {
   totalPage: number;
   issues: Issue[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private geIssueListProvider : GeIssueListProvider) {
+  constructor(
+    private auth: AuthProvider,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private geIssueListProvider : GeIssueListProvider) 
+  {
       this.getIssues();
   }
 
@@ -39,6 +46,10 @@ export class IssueListPage {
         this.issues = issues;
         console.log(this.issues);
       });
+  }
+
+  logOut() {
+    this.auth.logOut();
   }
 
 

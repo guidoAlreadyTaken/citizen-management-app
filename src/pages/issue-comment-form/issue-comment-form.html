@@ -1,0 +1,30 @@
+<h2>Commentaires</h2>
+<form (submit)="onCommentSubmit($event)" #commentForm="ngForm">
+  <ion-list>
+
+    <!-- Comment input -->
+    <ion-item no-lines>
+      <ion-textarea rows="3" type="text" name="comment" required [(ngModel)]="newComment.text" required minlength=2 maxlength=1000 #issueCommentInput="ngModel" placeholder="Nouveau commentaire"></ion-textarea>
+    </ion-item>
+
+    <!-- Error message displayed if the name is invalid -->
+    <ion-item *ngIf="issueCommentInput.invalid && issueCommentInput.dirty" no-lines>
+      <p ion-text color="danger">Ce champ est obligatoire.</p>
+    </ion-item>
+
+  </ion-list>
+
+  <div padding>
+
+    <!-- Submit button -->
+    <button ion-button icon-left small type="submit" [disabled]="commentForm.invalid">
+      <ion-icon name="send"></ion-icon>
+      Envoyer
+    </button>
+
+    <!-- Error message displayed if the registration failed -->
+    <p *ngIf="commentError" ion-text color="danger">Erreur lors de l'envoi du commentaire.</p>
+
+  </div>
+</form>
+<page-issue-comments [issue]="issue"></page-issue-comments>

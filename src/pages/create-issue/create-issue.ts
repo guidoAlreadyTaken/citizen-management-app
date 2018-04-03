@@ -1,11 +1,20 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { NavController, NavParams } from 'ionic-angular';
+
+import { GeIssueListProvider } from '../../providers/ge-issue-list/ge-issue-list';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
 import { config } from '../../app/config';
+import {Issue} from '../../models/issue';
+import {NewIssue} from '../../models/new-issue';
+import {IssueType} from '../../models/issue-type';
+import { PictureProvider } from '../../providers/picture/picture';
+import { DetailsPage } from '../details/details';
+
 
 
 /**
@@ -23,25 +32,44 @@ import { config } from '../../app/config';
 
 export class CreateIssuePage {
 
+  newIssue: NewIssue;
+  issueTypes: IssueType[];
   pictureData: string;
 
-  constructor(private auth: AuthProvider, public http: HttpClient, public navCtrl: NavController, public navParams: NavParams, private geolocation: Geolocation, private camera: Camera) {
+  constructor(
+    private auth: AuthProvider,
+    public http: HttpClient,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private issueProvider : GeIssueListProvider,
+    private geolocation: Geolocation,
+    private camera: Camera) {
+
+    this.newIssue = {
+      location: {
+        coordinates: [0, 0],
+        type: "Point"
+      },
+      description: '',
+      tags: [],
+      imageUrl: '',
+      issueTypeHref:''
+    };
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateIssuePage');
-
-    // TODO: make an HTTP request to retrieve the issue types.
-    const url = 'https://comem-citizen-engagement.herokuapp.com/api/issueTypes';
-    this.http.get(url).subscribe(issueTypes => {
-      console.log(`Issue types loaded`, issueTypes);
+    this.issueProvider.getIssueTypes().subscribe(issueTypes => {
+      this.issueTypes = issueTypes;
     });
+
 
     // getting the user location
     const geolocationPromise = this.geolocation.getCurrentPosition();
     geolocationPromise.then(position => {
       const coords = position.coords;
-      console.log(`User is at ${coords.longitude}, ${coords.latitude}`);
+      this.newIssue.location.coordinates[1]=position.coords.latitude;
+      this.newIssue.location.coordinates[0]=position.coords.longitude;
+      console.log(`new issue is at ${coords.longitude}, ${coords.latitude}`);
     }).catch(err => {
       console.warn(`Could not retrieve user position because: ${err.message}`);
     });
@@ -59,6 +87,18 @@ export class CreateIssuePage {
     }).catch(err => {
       console.warn(`Could not take picture because: ${err.message}`);
     });
+  }
+
+  createIssue(form: NgForm) {
+    if (form.valid) {
+      this.issueProvider.createIssue(this.newIssue).subscribe(newIssue => {
+        this.navCtrl.push(DetailsPage, {
+          id: newIssue.id
+        });
+      }, err => {
+        console.warn('Could not create the new issue', err);
+      });
+    }
   }
 
   logOut() {

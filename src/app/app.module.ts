@@ -24,6 +24,11 @@ import { DetailsPage } from '../pages/details/details';
 import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-interceptor';
 import { RegProvider } from '../providers/reg/reg';
 import { GeIssueListProvider } from '../providers/ge-issue-list/ge-issue-list';
+import { PictureProvider } from '../providers/picture/picture';
+import { IssueCommentsPage } from '../pages/issue-comments/issue-comments';
+import { IssueCommentFormPage } from '../pages/issue-comment-form/issue-comment-form';
+
+
 
 
 @NgModule({
@@ -35,7 +40,9 @@ import { GeIssueListProvider } from '../providers/ge-issue-list/ge-issue-list';
     IssueMapPage,
     LoginPage,
     DetailsPage,
-    SignInPage
+    SignInPage,
+    IssueCommentsPage,
+    IssueCommentFormPage
   ],
   imports: [
     BrowserModule,
@@ -54,7 +61,8 @@ import { GeIssueListProvider } from '../providers/ge-issue-list/ge-issue-list';
     IssueMapPage,
     LoginPage,
     DetailsPage,
-    SignInPage
+    SignInPage,
+    IssueCommentFormPage
   ],
   providers: [
     StatusBar,
@@ -66,7 +74,8 @@ import { GeIssueListProvider } from '../providers/ge-issue-list/ge-issue-list';
     Geolocation,
     Camera,
     RegProvider,
-    GeIssueListProvider
+    GeIssueListProvider,
+    PictureProvider
   ]
 })
 export class AppModule {}

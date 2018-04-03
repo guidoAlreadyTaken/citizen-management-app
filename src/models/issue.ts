@@ -1,4 +1,5 @@
-//import { User } from './user';
+import { IssueType } from "./issue-type";
+import { User } from './user';
 
 export class Issue {
 	assigneeHref: string;
@@ -6,16 +7,17 @@ export class Issue {
     creatorHref: string;
     description: string;
     href: string;
-    id?: string;
+    id: string;
     imageUrl: string;
     additionalImageUrls: string[];
     issueTypeHref: string;
     location: {
-      coordinates: number[],
+      coordinates: [number, number],
       type: string
     };
     state: string;
-    tags: string[];
+    tags: [string];
     updatedAt: Date;
-    //cretaor: User;
+    cretaor: User;
+    issueType: IssueType;
 }

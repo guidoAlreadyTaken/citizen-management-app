@@ -46,7 +46,7 @@
 	    </ion-item>
 
 	    <!-- Error message displayed if the name is invalid -->
-	    <ion-item *ngIf='LastnameInput.invalid && LastnameInput.dirty' no-lines>
+	    <ion-item *ngIf='lastnameInput.invalid && lastnameInput.dirty' no-lines>
 	      <p ion-text color='danger'>Lastname is required to register.</p>
 	    </ion-item>
 
@@ -57,14 +57,14 @@
 	    </ion-item>
 
 	    <!-- Error message displayed if the name is invalid -->
-	    <ion-item *ngIf='LastnameInput.invalid && LastnameInput.dirty' no-lines>
-	      <p ion-text color='danger'>Lastname is required to register.</p>
+	    <ion-item *ngIf='phoneInput.invalid && phoneInput.dirty' no-lines>
+	      <p ion-text color='danger'>A phone number is required to register.</p>
 	    </ion-item>
 
 	    <!-- Password input -->
 	    <ion-item>
 	      <ion-label floating>Password</ion-label>
-	      <ion-input placeholder="Password" name="password" id="passwordField" type="password" required #passWordInput='ngModel' [(ngModel)]="newUser.password"></ion-input>
+	      <ion-input placeholder="Password" name="password" id="passwordField" type="password" required #passwordInput='ngModel' [(ngModel)]="newUser.password"></ion-input>
 	    </ion-item>
 
 	    <!-- Error message displayed if the password is invalid -->

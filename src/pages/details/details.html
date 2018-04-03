@@ -8,6 +8,11 @@
 
   <ion-navbar>
     <ion-title>DetailsPage</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)='logOut()'>
+          <ion-icon name='log-out'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -17,10 +22,40 @@
 			<ion-spinner *ngIf="!issue"></ion-spinner>
     		<ion-item *ngIf="issue">
     			<div>
+            <h4>Issue image</h4>
     				<img class="issueImg" src="{{issue.imageUrl}}" />
-    				<p>{{issue.description}}</p>
     			</div>
-      			<!--<button ion-button (click)='goToMap(issue.id)' >Show on map</button>-->
+          <br>
+          <div>
+            <h4>Description</h4>
+            <p>{{issue.description}}</p>
+          </div>
+          <br>
+          <div>
+            <h4>State</h4>
+            <p>{{issue.state}}</p>
+          </div>
+          <br>
+          <br>
+          <div>
+            <ion-row class="vertical-align-content">
+              <ion-col>
+                <div>
+                  <h4>Issue created at :</h4>
+                  <p>{{ issue.createdAt | date:'dd.MM.yyyy HH:mm' }}</p>
+                </div>
+              </ion-col>
+              <ion-col>
+                <button ion-button (click)='goToMap(issue.id)' >Show on map</button>
+              </ion-col>
+            </ion-row>
+          </div>
+          <br>
+          <br>
+          <br>
+          <div>
+            <page-issue-comment-form [issue]="issue"></page-issue-comment-form>
+          </div>
     		</ion-item>
   		</ion-list>
 </ion-content>
