@@ -12,6 +12,7 @@ import { config } from '../../app/config';
 import {Issue} from '../../models/issue';
 import {NewIssue} from '../../models/new-issue';
 import {IssueType} from '../../models/issue-type';
+import { QimgImage } from '../../models/qimg-image';
 import { PictureProvider } from '../../providers/picture/picture';
 import { DetailsPage } from '../details/details';
 
@@ -34,7 +35,7 @@ export class CreateIssuePage {
 
   newIssue: NewIssue;
   issueTypes: IssueType[];
-  pictureData: string;
+  picture: QimgImage;
 
   constructor(
     private auth: AuthProvider,
@@ -42,6 +43,7 @@ export class CreateIssuePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private issueProvider : GeIssueListProvider,
+    private pictureProvider: PictureProvider,
     private geolocation: Geolocation,
     private camera: Camera) {
 
@@ -76,16 +78,10 @@ export class CreateIssuePage {
   }
 
   takePicture() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-    this.camera.getPicture(options).then(pictureData => {
-      this.pictureData = pictureData;
-    }).catch(err => {
-      console.warn(`Could not take picture because: ${err.message}`);
+    this.pictureProvider.takeAndUploadPicture().subscribe(picture => {
+      this.picture = picture;
+    }, err => {
+      console.warn('Could not take picture', err);
     });
   }
 

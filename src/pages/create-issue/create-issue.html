@@ -50,6 +50,7 @@
         <img *ngIf="newIssue.imageUrl" [src]=newIssue.imageUrl>
       </ion-thumbnail>
       <button ion-button (click)='takePicture()'>take a picture</button>
+      <img *ngIf='picture' [src]='picture.url' />
     </ion-item>
 
     <ion-item>
